@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ContactPlus</string>
+    <string name="name_label">Name :</string>
+    <string name="name_hint">Enter name</string>
+    <string name="tel_label">Tel :</string>
+    <string name="tel_hint">Enter Tel</string>
+    <string name="email_label">Email :</string>
+    <string name="email_hint">Enter e-mail</string>
 </resources>

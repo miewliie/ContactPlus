@@ -3,11 +3,11 @@ package com.augmentis.ayp.contactplus;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ContextActivity extends AppCompatActivity {
+public class ContactFragment extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_context);
+        setContentView(R.layout.activity_contact_fragment);
     }
 }
