@@ -93,10 +93,8 @@ public class ContactListFragment extends Fragment {
                 ContactLab.getInstance(getActivity()).addContact(contact);
                 Intent intent = ContactActivity.newIntent(getActivity(), contact.getId());
                 startActivity(intent);
-//
-//                Contact contact = new Contact();
-//                ContactLab.getInstance(getActivity()).addContact(contact);
-                return true;// return true is nothing to do after this Laew Na
+
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -118,6 +116,8 @@ public class ContactListFragment extends Fragment {
             _textNameList = (TextView) itemView.findViewById(R.id.textNameList);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+
         }
 
         public void bind(final Contact contact , int position) {
@@ -139,19 +139,16 @@ public class ContactListFragment extends Fragment {
         @Override
         public void onClick(View view) {
 
-            Intent intent = ContactActivity.newIntent(getActivity(), _contact.getId());
-            startActivity(intent);
-
-//            if (hasCallPermission()) {
-//               // call();
-//            }
-
+            if (hasCallPermission()) {
+                call();
+            }
         }
 
         @Override
         public boolean onLongClick(View view) {
 
-
+            Intent intent = ContactActivity.newIntent(getActivity(), _contact.getId());
+            startActivity(intent);
 
             return true;
         }

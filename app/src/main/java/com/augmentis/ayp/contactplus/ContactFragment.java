@@ -75,7 +75,7 @@ public class ContactFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_contact_fragment, container, false);
 
         editName = (EditText) view.findViewById(R.id.contact_name);
-//        editName.setText(contact.getName());
+        editName.setText(contact.getName());
         editName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -97,7 +97,7 @@ public class ContactFragment extends Fragment {
         });
 
         editTel = (EditText) view.findViewById(R.id.contact_tel);
-//        editTel.setText(contact.getTel());
+        editTel.setText(contact.getTel());
         editTel.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -117,7 +117,7 @@ public class ContactFragment extends Fragment {
         });
 
         editEmail = (EditText) view.findViewById(R.id.contact_email);
-//        editEmail.setText(contact.getEmail());
+        editEmail.setText(contact.getEmail());
         editEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
