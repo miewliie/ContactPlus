@@ -9,14 +9,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ContactActivity">
+
+        </activity>
+        <activity android:name=".SingleFragmentActivity" />
+
+        <activity android:name=".ContactListActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SingleFragmentActivity" />
-        <activity android:name=".ContactListActivity" />
+
         <activity android:name=".ContactFragment"></activity>
     </application>
 

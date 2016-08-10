@@ -1,5 +1,6 @@
 package com.augmentis.ayp.contactplus;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -55,9 +56,12 @@ public class ContactListFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.menu_item_new_contact:
 
-
                 Contact contact = new Contact();
-                ContactLab.getInstance(getActivity()).addCrime(contact);
+                Intent intent = ContactActivity.newIntent(getActivity(), contact.getId());
+                startActivity(intent);
+//
+//                Contact contact = new Contact();
+//                ContactLab.getInstance(getActivity()).addCrime(contact);
                 return true;// return true is nothing to do after this Laew Na
 
             default:
