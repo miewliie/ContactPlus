@@ -2,10 +2,14 @@ package com.augmentis.ayp.contactplus.Model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import com.augmentis.ayp.contactplus.Model.ContactDbSchema.ContactTable;
 
 /**
@@ -13,6 +17,7 @@ import com.augmentis.ayp.contactplus.Model.ContactDbSchema.ContactTable;
  */
 public class ContactLab {
 
+    private static final String TAG = "DB";
     private static ContactLab instance;
 
     ///////////////////////////////////////////
@@ -43,10 +48,53 @@ public class ContactLab {
 
     public ContactLab(Context context) {
         this.context = context;
+        ContactsBaseHelper contactsBaseHelper = new ContactsBaseHelper(context);
+        database = contactsBaseHelper.getWritableDatabase();
     }
 
-    private List<Contact> getContact() {
+    public  Contact getContactByID(UUID uuid){
+        ContactsCursorWrapper cursor = queryContacts(ContactTable.Cols.UUID
+                + " = ? ", new String[] { uuid.toString()});
+
+        try{
+            if(cursor.getCount() == 0){
+                return null;
+            }
+
+            cursor.moveToFirst();
+            return cursor.getContact();
+        }finally {
+            cursor.close();
+        }
+    }
+
+    public ContactsCursorWrapper queryContacts(String whereCause, String[] whereArgs){
+        Cursor cursor = database.query(ContactTable.NAME,
+                null,
+                whereCause,
+                whereArgs,
+                null,
+                null,
+                null);
+
+        return new ContactsCursorWrapper(cursor);
+    }
+
+
+    public List<Contact> getContact() {
         List<Contact> contacts = new ArrayList<>();
+
+        ContactsCursorWrapper cursorWrapper = queryContacts(null, null);
+        try {
+            cursorWrapper.moveToFirst();
+            while ( !cursorWrapper.isAfterLast()){ // cursor until after the last row
+                contacts.add(cursorWrapper.getContact());// add crime to crimelist
+
+                cursorWrapper.moveToNext();//move to next crime
+            }
+        }finally {
+            cursorWrapper.close(); //move until the last then close cursor
+        }
 
         return contacts;
     }
@@ -63,10 +111,27 @@ public class ContactLab {
     }
 
 
-    public void addCrime(Contact contact) {
+    public void addContact(Contact contact) {
 
         ContentValues contentValues = getContentValues(contact);
 
         database.insert(ContactTable.NAME, null, contentValues);
+    }
+
+    public void updateContact(Contact contact){
+        String uuidStr = contact.getId().toString();
+        ContentValues contentValues = getContentValues(contact);
+
+
+        database.update(ContactTable.NAME, contentValues, ContactTable.Cols.UUID
+                + " = ?", new String[] { uuidStr}); // uuidStr will manage n put in ? position (sql injection)
+
+        Log.d(TAG, "Add to db : " + contact.getName());
+
+    }
+
+    public void deleteCrime(UUID contactId) {
+        database.delete(ContactTable.NAME, ContactTable.Cols.UUID
+                + " = ? ", new String[] {contactId.toString() });
     }
 }

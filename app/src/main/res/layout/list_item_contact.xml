@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_margin="8dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <include layout="@layout/view_contact">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    </include>
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="#F5F5F5"
+            android:id="@+id/imageViewList" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextName"
+            android:textSize="20sp"
+            android:layout_below="@id/imageViewList"
+            android:id="@+id/textNameList"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
 
 </FrameLayout>

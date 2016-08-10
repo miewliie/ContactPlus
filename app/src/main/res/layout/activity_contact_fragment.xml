@@ -100,7 +100,7 @@
             android:layout_width="170dp"
             android:layout_height="70dp"
             android:text="Delete !"
-            android:id="@+id/button2"
+            android:id="@+id/buttonDel"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
