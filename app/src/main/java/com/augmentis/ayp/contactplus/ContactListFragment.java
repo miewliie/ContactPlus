@@ -176,7 +176,7 @@ public class ContactListFragment extends Fragment {
         @Override
         public boolean onLongClick(View view) {
 
-            callbacks.onContactSelected(contact);
+            callbacks.onContactSelected(_contact);
 //            Intent intent = ContactActivity.newIntent(getActivity(), _contact.getId());
 //            startActivity(intent);
 
