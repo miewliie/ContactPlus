@@ -3,8 +3,10 @@ package com.augmentis.ayp.contactplus;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -19,10 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.augmentis.ayp.contactplus.Model.Contact;
 import com.augmentis.ayp.contactplus.Model.ContactLab;
+import com.augmentis.ayp.contactplus.Model.PictureUtils;
 
+import java.io.File;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -106,6 +111,8 @@ public class ContactListFragment extends Fragment {
 
         private ImageView _imageViewList;
         private TextView _textNameList;
+
+        private File file;
         Contact _contact;
         int _position;
 
@@ -127,10 +134,10 @@ public class ContactListFragment extends Fragment {
             _textNameList.setText(_contact.getName());
             Log.d(TAG, "DATA: " + _contact.toString());
 
-//            file = CrimeLab.getInstance(getActivity()).getPhotoFile(_crime);
-//            Bitmap bitmap = PictureUtils.getScaledBitmap(file.getPath(), getActivity() );
+            file = ContactLab.getInstance(getActivity()).getPhotoFile(_contact);
+            Bitmap bitmap = PictureUtils.getScaledBitmap(file.getPath(), getActivity() );
 
-//            _imageViewList.setImageBitmap(bitmap);
+            _imageViewList.setImageBitmap(bitmap);
             Log.d(TAG, "A : " + _contact.getName());
 
 
@@ -140,7 +147,7 @@ public class ContactListFragment extends Fragment {
         public void onClick(View view) {
 
             if (hasCallPermission()) {
-                call();
+                call(_contact);
             }
         }
 
@@ -173,21 +180,44 @@ public class ContactListFragment extends Fragment {
         return true; // already has permission
     }
 
-    private void call() {
+    private void call(Contact contact) {
         Intent i = new Intent(Intent.ACTION_CALL);
-        StringTokenizer tokenizer = new StringTokenizer(contact.getTel(), ":");
-        String name = tokenizer.nextToken();
-        String phone = tokenizer.nextToken();
-//        Log.d(TAG, "calling " + name + "/" + phone);
+        String phone = contact.getTel();
         i.setData(Uri.parse("tel:" + phone));
 
         startActivity(i);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_CALL_PHONE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // Granted permission
+                    call(_adapter.contact);
+
+                } else {
+
+                    // Denied permission
+                    Toast.makeText(getActivity(),
+                            R.string.denied_permission_to_call,
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+                return;
+            }
+        }
+    }
 
     private class ContactAdapter extends RecyclerView.Adapter<ContactHolder>{
         private List<Contact> _contacts;
         private Fragment _f;
+        private Contact contact;
 
         public ContactAdapter(Fragment f, List<Contact> contacts) {
             _contacts = contacts;
@@ -208,6 +238,7 @@ public class ContactListFragment extends Fragment {
 
             Contact contact = _contacts.get(position);
             holder.bind(contact, position);
+            set_contact(position);
         }
 
         @Override
@@ -218,6 +249,14 @@ public class ContactListFragment extends Fragment {
 
         public void setContacts(List<Contact> contacts) {
             _contacts = contacts;
+        }
+
+        public void set_contact(int position){
+            contact = _adapter._contacts.get(position);
+        }
+
+        public Contact getContact(){
+            return contact;
         }
     }
 

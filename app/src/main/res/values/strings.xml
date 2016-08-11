@@ -6,4 +6,5 @@
     <string name="tel_hint">Enter Tel</string>
     <string name="email_label">Email :</string>
     <string name="email_hint">Enter e-mail</string>
+    <string name="denied_permission_to_call">Permission request to call is denied</string>
 </resources>

@@ -51,6 +51,11 @@ public class Contact {
         this.Email = email;
     }
 
+    public String getPhotoFilename(){
+
+        return "IMG_" + getId().toString() + ".jpg";
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

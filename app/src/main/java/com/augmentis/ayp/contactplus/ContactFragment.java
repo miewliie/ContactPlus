@@ -1,6 +1,10 @@
 package com.augmentis.ayp.contactplus;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 
 import android.os.Bundle;
@@ -18,7 +22,9 @@ import android.widget.ImageView;
 
 import com.augmentis.ayp.contactplus.Model.Contact;
 import com.augmentis.ayp.contactplus.Model.ContactLab;
+import com.augmentis.ayp.contactplus.Model.PictureUtils;
 
+import java.io.File;
 import java.util.UUID;
 
 public class ContactFragment extends Fragment {
@@ -26,6 +32,8 @@ public class ContactFragment extends Fragment {
     private static final String CONTACT_ID = "ContactFragment.CONTACT_ID";
     private static final int REQUEST_DETAIL = 211;
     private static final java.lang.String DIALOG_DETAIL = "ContactFragment.DELDIALOG";
+    private static final String TAG = "ContactFragment.PHOTO";
+    private static final int REQUEST_CAPTURE_PHOTO = 113;
     private Contact contact;
     private EditText editName;
     private EditText editTel;
@@ -33,6 +41,9 @@ public class ContactFragment extends Fragment {
     private Button buttonDel;
     private ImageView imageView;
     private Button buttonPic;
+
+    private File photoFile;
+    private File file;
 
     public ContactFragment() {
     }
@@ -159,15 +170,46 @@ public class ContactFragment extends Fragment {
             }
         });
 
+        PackageManager packageManager = getActivity().getPackageManager();
+
+//        if (packageManager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null) {
+//        }
+
+        //call camera intent
+        final Intent captureImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        boolean canTakePhoto = photoFile != null
+                && captureImageIntent.resolveActivity(packageManager) != null;
+
+        if(canTakePhoto){
+            Uri uri = Uri.fromFile(photoFile);
+
+            Log.d(TAG, "File output at" + photoFile.getAbsolutePath());
+            captureImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        }
+
         buttonPic = (Button) view.findViewById(R.id.buttonPic);
         buttonPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //////////////
+                startActivityForResult(captureImageIntent, REQUEST_CAPTURE_PHOTO);
             }
         });
 
         updateContact();
+        updatePhotoView();
         return view;
+    }
+
+    private void updatePhotoView(){
+        if(photoFile == null || !photoFile.exists()){
+            imageView.setImageDrawable(null);
+        }else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(photoFile.getPath(),
+                    getActivity() );
+
+            imageView.setImageBitmap(bitmap);
+
+        }
     }
 }
