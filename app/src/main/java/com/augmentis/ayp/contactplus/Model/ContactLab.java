@@ -24,15 +24,15 @@ public class ContactLab {
 
     ///////////////////////////////////////////
 
-    public static ContactLab getInstance(Context context){
+    public static ContactLab getInstance(Context context) {
 
-        if(instance == null){
+        if (instance == null) {
             instance = new ContactLab(context);
         }
         return instance;
     }
 
-    public static ContentValues getContentValues(Contact contact){
+    public static ContentValues getContentValues(Contact contact) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContactTable.Cols.UUID, contact.getId().toString());
         contentValues.put(ContactTable.Cols.NAME, contact.getName());
@@ -42,7 +42,7 @@ public class ContactLab {
         return contentValues;
     }
 
-  ///////////////////////////////////////////////
+    ///////////////////////////////////////////////
 
     private SQLiteDatabase database;
     private Context context;
@@ -54,23 +54,23 @@ public class ContactLab {
         database = contactsBaseHelper.getWritableDatabase();
     }
 
-    public  Contact getContactByID(UUID uuid){
+    public Contact getContactByID(UUID uuid) {
         ContactsCursorWrapper cursor = queryContacts(ContactTable.Cols.UUID
-                + " = ? ", new String[] { uuid.toString()});
+                + " = ? ", new String[]{uuid.toString()});
 
-        try{
-            if(cursor.getCount() == 0){
+        try {
+            if (cursor.getCount() == 0) {
                 return null;
             }
 
             cursor.moveToFirst();
             return cursor.getContact();
-        }finally {
+        } finally {
             cursor.close();
         }
     }
 
-    public ContactsCursorWrapper queryContacts(String whereCause, String[] whereArgs){
+    public ContactsCursorWrapper queryContacts(String whereCause, String[] whereArgs) {
         Cursor cursor = database.query(ContactTable.NAME,
                 null,
                 whereCause,
@@ -89,23 +89,23 @@ public class ContactLab {
         ContactsCursorWrapper cursorWrapper = queryContacts(null, null);
         try {
             cursorWrapper.moveToFirst();
-            while ( !cursorWrapper.isAfterLast()){ // cursor until after the last row
+            while (!cursorWrapper.isAfterLast()) { // cursor until after the last row
                 contacts.add(cursorWrapper.getContact());// add crime to crimelist
 
                 cursorWrapper.moveToNext();//move to next crime
             }
-        }finally {
+        } finally {
             cursorWrapper.close(); //move until the last then close cursor
         }
 
         return contacts;
     }
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
         ContactLab contactLab = ContactLab.getInstance(null);
         List<Contact> contactList = contactLab.getContact();
         int size = contactList.size();
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             System.out.println(contactList.get(i));
 
         }
@@ -120,13 +120,13 @@ public class ContactLab {
         database.insert(ContactTable.NAME, null, contentValues);
     }
 
-    public void updateContact(Contact contact){
+    public void updateContact(Contact contact) {
         String uuidStr = contact.getId().toString();
         ContentValues contentValues = getContentValues(contact);
 
 
         database.update(ContactTable.NAME, contentValues, ContactTable.Cols.UUID
-                + " = ?", new String[] { uuidStr}); // uuidStr will manage n put in ? position (sql injection)
+                + " = ?", new String[]{uuidStr}); // uuidStr will manage n put in ? position (sql injection)
 
         Log.d(TAG, "Add to db : " + contact.getName());
 
@@ -134,14 +134,14 @@ public class ContactLab {
 
     public void deleteCrime(UUID contactId) {
         database.delete(ContactTable.NAME, ContactTable.Cols.UUID
-                + " = ? ", new String[] {contactId.toString() });
+                + " = ? ", new String[]{contactId.toString()});
     }
 
-    public File getPhotoFile(Contact contact){
+    public File getPhotoFile(Contact contact) {
 
         File externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-        if(externalFilesDir == null){
+        if (externalFilesDir == null) {
             return null;
         }
         return new File(externalFilesDir, contact.getPhotoFilename()); //return file that already have path bind with crime

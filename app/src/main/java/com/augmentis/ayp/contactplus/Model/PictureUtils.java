@@ -10,7 +10,7 @@ import android.graphics.Point;
  */
 public class PictureUtils {
 
-    public static Bitmap getScaledBitmap(String path, int destWidth, int destHeight){
+    public static Bitmap getScaledBitmap(String path, int destWidth, int destHeight) {
         //Read the dimension of the image
 
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -20,12 +20,12 @@ public class PictureUtils {
         float srcWidth = options.outWidth;
         float srcHeight = options.outHeight;
         int inSampleSize = 1;
-        if(srcHeight > destHeight || srcWidth > destWidth){
-            if(srcWidth > srcHeight){
+        if (srcHeight > destHeight || srcWidth > destWidth) {
+            if (srcWidth > srcHeight) {
 
-                inSampleSize = Math.round(srcHeight/destHeight);
-            }else {
-                inSampleSize = Math.round(srcWidth/destWidth);
+                inSampleSize = Math.round(srcHeight / destHeight);
+            } else {
+                inSampleSize = Math.round(srcWidth / destWidth);
             }
         }
 
@@ -35,7 +35,7 @@ public class PictureUtils {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public static Bitmap getScaledBitmap(String path, Activity activity){
+    public static Bitmap getScaledBitmap(String path, Activity activity) {
         Point size = new Point();
 
         activity.getWindowManager().getDefaultDisplay().getSize(size);

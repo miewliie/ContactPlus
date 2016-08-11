@@ -22,7 +22,7 @@ public class DelDialog extends DialogFragment implements DialogInterface.OnClick
     private static final String CONTACT_ID = "DelDialog.ID";
     UUID contactId;
 
-    public static DelDialog newInstance(Context context, UUID uuid){
+    public static DelDialog newInstance(Context context, UUID uuid) {
         DelDialog dd = new DelDialog();
         Bundle args = new Bundle();
         args.putSerializable(CONTACT_ID, uuid);

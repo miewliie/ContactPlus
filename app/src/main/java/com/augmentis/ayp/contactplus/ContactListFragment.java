@@ -62,7 +62,7 @@ public class ContactListFragment extends Fragment {
         if (_adapter == null) {
             _adapter = new ContactAdapter(this, contacts);
             _RecyclerView.setAdapter(_adapter);
-        }else {
+        } else {
             _adapter.setContacts(contactLab.getContact());
             _adapter.notifyDataSetChanged();
 
@@ -91,7 +91,7 @@ public class ContactListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_item_new_contact:
 
                 Contact contact = new Contact();
@@ -107,7 +107,7 @@ public class ContactListFragment extends Fragment {
 
     }
 
-    private class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+    private class ContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private ImageView _imageViewList;
         private TextView _textNameList;
@@ -127,7 +127,7 @@ public class ContactListFragment extends Fragment {
 
         }
 
-        public void bind(final Contact contact , int position) {
+        public void bind(final Contact contact, int position) {
             _contact = contact;
             _position = position;
 
@@ -135,7 +135,7 @@ public class ContactListFragment extends Fragment {
             Log.d(TAG, "DATA: " + _contact.toString());
 
             file = ContactLab.getInstance(getActivity()).getPhotoFile(_contact);
-            Bitmap bitmap = PictureUtils.getScaledBitmap(file.getPath(), getActivity() );
+            Bitmap bitmap = PictureUtils.getScaledBitmap(file.getPath(), getActivity());
 
             _imageViewList.setImageBitmap(bitmap);
             Log.d(TAG, "A : " + _contact.getName());
@@ -214,7 +214,7 @@ public class ContactListFragment extends Fragment {
         }
     }
 
-    private class ContactAdapter extends RecyclerView.Adapter<ContactHolder>{
+    private class ContactAdapter extends RecyclerView.Adapter<ContactHolder> {
         private List<Contact> _contacts;
         private Fragment _f;
         private Contact contact;
@@ -224,13 +224,13 @@ public class ContactListFragment extends Fragment {
             _f = f;
         }
 
-            @Override
+        @Override
         public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-                View v = layoutInflater.inflate(R.layout.list_item_contact, parent, false);
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View v = layoutInflater.inflate(R.layout.list_item_contact, parent, false);
 
-                return new ContactHolder(v);
+            return new ContactHolder(v);
         }
 
         @Override
@@ -251,11 +251,11 @@ public class ContactListFragment extends Fragment {
             _contacts = contacts;
         }
 
-        public void set_contact(int position){
+        public void set_contact(int position) {
             contact = _adapter._contacts.get(position);
         }
 
-        public Contact getContact(){
+        public Contact getContact() {
             return contact;
         }
     }

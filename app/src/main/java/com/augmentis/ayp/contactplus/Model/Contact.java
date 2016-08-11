@@ -11,7 +11,7 @@ public class Contact {
     private String Tel;
     private String Email;
 
-    public Contact(){
+    public Contact() {
         this(UUID.randomUUID());
     }
 
@@ -51,7 +51,7 @@ public class Contact {
         this.Email = email;
     }
 
-    public String getPhotoFilename(){
+    public String getPhotoFilename() {
 
         return "IMG_" + getId().toString() + ".jpg";
     }

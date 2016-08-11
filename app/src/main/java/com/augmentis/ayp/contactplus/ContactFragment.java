@@ -72,10 +72,12 @@ public class ContactFragment extends Fragment {
             contactLab.addContact(contact);
             this.contact = contact;
         }
+
+        photoFile = ContactLab.getInstance(getActivity()).getPhotoFile(contact);
     }
 
 
-    public void updateContact(){
+    public void updateContact() {
         ContactLab.getInstance(getActivity()).updateContact(contact);// update crime in db
 
     }
@@ -159,7 +161,6 @@ public class ContactFragment extends Fragment {
             }
 
 
-
         });
 
         imageView = (ImageView) view.findViewById(R.id.imageView);
@@ -181,7 +182,7 @@ public class ContactFragment extends Fragment {
         boolean canTakePhoto = photoFile != null
                 && captureImageIntent.resolveActivity(packageManager) != null;
 
-        if(canTakePhoto){
+        if (canTakePhoto) {
             Uri uri = Uri.fromFile(photoFile);
 
             Log.d(TAG, "File output at" + photoFile.getAbsolutePath());
@@ -201,15 +202,14 @@ public class ContactFragment extends Fragment {
         return view;
     }
 
-    private void updatePhotoView(){
-        if(photoFile == null || !photoFile.exists()){
+    private void updatePhotoView() {
+        if (photoFile == null || !photoFile.exists()) {
             imageView.setImageDrawable(null);
-        }else {
+        } else {
             Bitmap bitmap = PictureUtils.getScaledBitmap(photoFile.getPath(),
-                    getActivity() );
+                    getActivity());
 
             imageView.setImageBitmap(bitmap);
-
         }
     }
 }

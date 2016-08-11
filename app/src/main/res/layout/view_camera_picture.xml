@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingLeft="8dp"
     android:paddingTop="15dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
-            android:background="#FFCDD2"
+            android:id="@+id/imageView"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:id="@+id/imageView" />
+            android:background="#FFCDD2" />
 
         <Button
+            android:id="@+id/buttonPic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Picture"
-            android:id="@+id/buttonPic"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:text="Picture" />
     </LinearLayout>
 
 </LinearLayout>

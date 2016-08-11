@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
 import com.augmentis.ayp.contactplus.Model.ContactDbSchema.ContactTable;
 
 /**
@@ -15,7 +16,7 @@ public class ContactsBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String TAG = "ContactsBaseHelper";
 
-    public ContactsBaseHelper(Context context){
+    public ContactsBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
