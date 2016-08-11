@@ -1,5 +1,6 @@
 package com.augmentis.ayp.contactplus;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -44,6 +45,25 @@ public class ContactFragment extends Fragment {
 
     private File photoFile;
     private File file;
+    private Callbacks callbacks;
+
+
+
+    public interface Callbacks{
+        void onContactUpdated(Contact contact);
+        void onContactDelete();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        callbacks = (Callbacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 
     public ContactFragment() {
     }
@@ -80,6 +100,10 @@ public class ContactFragment extends Fragment {
 
     public void updateContact(){
         ContactLab.getInstance(getActivity()).updateContact(contact);// update crime in db
+
+        if (ContactFragment.this.isResumed()) {
+            callbacks.onContactUpdated(contact);
+        }
 
     }
 
@@ -211,6 +235,8 @@ public class ContactFragment extends Fragment {
         if(requestCode == REQUEST_CAPTURE_PHOTO){
             updatePhotoView();
         }
+
+        updateContact();
     }
 
     private void updatePhotoView(){

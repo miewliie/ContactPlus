@@ -1,6 +1,7 @@
 package com.augmentis.ayp.contactplus;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -29,7 +30,6 @@ import com.augmentis.ayp.contactplus.Model.PictureUtils;
 
 import java.io.File;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Created by Apinya on 8/9/2016.
@@ -42,6 +42,26 @@ public class ContactListFragment extends Fragment {
     private RecyclerView _RecyclerView;
     private ContactAdapter _adapter;
     private Contact contact;
+    private Callbacks callbacks;
+
+
+
+    public interface Callbacks{
+        void onContactSelected(Contact contact);
+        void onOpenSelectFirst();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        callbacks = (Callbacks) context;
+        callbacks.onOpenSelectFirst();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 
     @Nullable
     @Override
@@ -55,7 +75,7 @@ public class ContactListFragment extends Fragment {
         return view;
     }
 
-    private void updateUI() {
+    public void updateUI() {
         ContactLab contactLab = ContactLab.getInstance(getActivity());
         List<Contact> contacts = contactLab.getContact();
 
@@ -96,11 +116,13 @@ public class ContactListFragment extends Fragment {
 
                 Contact contact = new Contact();
                 ContactLab.getInstance(getActivity()).addContact(contact);
-                Intent intent = ContactActivity.newIntent(getActivity(), contact.getId());
-                startActivity(intent);
 
+//                Intent intent = ContactActivity.newIntent(getActivity(), contact.getId());
+//                startActivity(intent);
+
+                updateUI();
+                callbacks.onContactSelected(contact);
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -154,8 +176,9 @@ public class ContactListFragment extends Fragment {
         @Override
         public boolean onLongClick(View view) {
 
-            Intent intent = ContactActivity.newIntent(getActivity(), _contact.getId());
-            startActivity(intent);
+            callbacks.onContactSelected(contact);
+//            Intent intent = ContactActivity.newIntent(getActivity(), _contact.getId());
+//            startActivity(intent);
 
             return true;
         }

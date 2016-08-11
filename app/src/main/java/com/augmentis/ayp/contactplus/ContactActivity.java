@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import com.augmentis.ayp.contactplus.Model.Contact;
+
 import java.util.UUID;
 
 
-public class ContactActivity extends SingleFragmentActivity {
+public class ContactActivity extends SingleFragmentActivity implements ContactFragment.Callbacks{
     private UUID contactId;
 
     private static final String CONTACT_ID = "ContactActivity.CONTACT_ID";
@@ -30,5 +32,16 @@ public class ContactActivity extends SingleFragmentActivity {
         Intent intent = new Intent(activity, ContactActivity.class);
         intent.putExtra(CONTACT_ID, id);
         return intent;
+    }
+
+
+    @Override
+    public void onContactUpdated(Contact contact) {
+
+    }
+
+    @Override
+    public void onContactDelete() {
+        finish();
     }
 }
